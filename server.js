@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import fetch from "node-fetch"; // node-fetch v3, ES module import
 import path from "path";
 import { fileURLToPath } from "url";
-import { pipeline } from "@xenova/transformers";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,41 +13,47 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-let gen = null;
-
-async function loadModel() {
-    console.log("Loading model pipeline (may download model files)...");
-    // This uses Xenova's transformers pipeline which will download model assets on first run.
-    gen = await pipeline("text-generation", "Xenova/gpt2");
-    console.log("Model loaded.");
-}
-
-// Start loading model immediately (Render will run this on startup).
-loadModel().catch(err => {
-    console.error("Failed to load model on startup:", err);
-});
+// HuggingFace public model endpoint (no API key required for some public models)
+const HF_MODEL_URL = "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill";
 
 app.post("/chat", async (req, res) => {
     try {
-        if (!gen) {
-            return res.json({ reply: "Model is still loading, please retry in a few seconds." });
+        const userMsg = req.body.message || "";
+
+        // Forward the user's message to the HuggingFace inference endpoint
+        const hfRes = await fetch(HF_MODEL_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ inputs: userMsg })
+        });
+
+        // Read text then attempt parse to keep consistent behavior
+        const text = await hfRes.text();
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            console.error("Non-JSON response from HuggingFace:", text);
+            // Always reply with JSON to frontend
+            return res.status(502).json({ reply: "Bad response from HuggingFace model." });
         }
-        const message = req.body.message || "";
-        const prompt = `User: ${message}\nAssistant:`;
-        const out = await gen(prompt, { max_new_tokens: 128, do_sample: true, temperature: 0.7 });
-        // out is an array; join text parts
-        const text = Array.isArray(out) ? out[0].generated_text : (out.generated_text || "");
-        // Trim to reasonable length
-        const reply = text.replace(prompt, "").trim();
-        res.json({ reply });
+
+        // The HF response format can vary; handle common shapes
+        let reply = "No response from model.";
+        if (typeof data === "string") reply = data;
+        else if (data.generated_text) reply = data.generated_text;
+        else if (Array.isArray(data) && data[0] && data[0].generated_text) reply = data[0].generated_text;
+        else if (data.error) reply = "Model error: " + data.error;
+
+        return res.json({ reply });
+
     } catch (err) {
-        console.error("Chat error:", err);
-        res.json({ reply: "Error: " + (err.message || String(err)) });
+        console.error("Chat route error:", err);
+        return res.status(500).json({ reply: "Server error: " + (err.message || "unknown") });
     }
 });
 
-// Simple health
 app.get("/health", (req, res) => res.send("ok"));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Server listening on port", PORT));
+app.listen(PORT, () => console.log("Server running on port", PORT));
