@@ -25,8 +25,21 @@ async function send() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: txt })
         });
-        const data = await res.json();
-        add("bot", data.reply);
+
+        const text = await res.text();
+        console.log("RAW /chat response:", text);
+
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            add("bot", "Server returned invalid JSON. See console for details.");
+            status.textContent = "Error";
+            sendBtn.disabled = false;
+            return;
+        }
+
+        add("bot", data.reply || "No reply.");
         status.textContent = "Ready";
     } catch (err) {
         add("bot", "Error: " + err.message);
@@ -40,11 +53,10 @@ async function send() {
 sendBtn.addEventListener("click", send);
 msgInput.addEventListener("keydown", (e) => { if (e.key === "Enter") send(); });
 
-// Health-check to update status
 async function checkHealth() {
     try {
         const r = await fetch("/health");
-        if (r.ok) status.textContent = "Server running. Model may still be loading on first boot.";
+        if (r.ok) status.textContent = "Server running. Model via HuggingFace.";
     } catch (e) {
         status.textContent = "Server not reachable.";
     }
