@@ -3,26 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Online AI Chat (No API Key)</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Online AI Chat (HuggingFace)</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-		 <img class="picturee" src="https://smtechnology133.github.io/africaonline/africaOnlineIcon.png"/>
-		 
-		 <span style="font-size: 28px;">Africa Online</span><br><br>
-	
-  <div class="container">
-    <h1 style="text-align:center;">Julia AI Asistant</h1>
-    <div id="chat" class="chat"></div>
+  <header class="topbar">
+    <img class="picturee" src="https://smtechnology133.github.io/africaonline/africaOnlineIcon.png" alt="logo"/>
+    <span class="title">Africa Online — Julia AI Assistant</span>
+  </header>
+
+  <main class="container">
+    <h1>Julia AI Assistant</h1>
+    <div id="chat" class="chat" role="log" aria-live="polite"></div>
+
     <div class="controls">
       <input id="msg" placeholder="Type a message..." autocomplete="off" />
       <button id="send">Send</button>
     </div>
-    <div id="status" class="status">Model may be loading on first start — wait ~30–120s.</div>
-  </div><br>
-  
-  	<footer>&copy 2025 Copyright SM Technology</footer>
 
-  <script src="script.js"></script>
+    <div id="status" class="status">Model accessed via HuggingFace public endpoint.</div>
+  </main>
+
+  <footer>&copy; 2025 SM Technology</footer>
+
+  <script src="/script.js"></script>
 </body>
 </html>
