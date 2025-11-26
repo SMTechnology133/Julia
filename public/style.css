@@ -6,14 +6,101 @@ body {
 	    border-radius:4px;
 	    margin-top:1px;
 	    background: linear-gradient(to right, teal, maroon);
+	    color:orange;
 	     }
-.container { max-width:720px; margin:0 auto; background:white; padding:18px; border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,0.08); }
-h1 { margin:0 0 12px 0; font-size:20px; }
-.chat { height:60vh; overflow:auto; border:1px solid #e5e7eb; padding:12px; border-radius:8px; background:#fff; }
-.msg { margin:8px 0; padding:10px 12px; border-radius:8px; max-width:80%; }
-.user { background:#2563eb; color:white; margin-left:auto; text-align:right; }
-.bot { background:#e5e7eb; color:#111; margin-right:auto; text-align:left; }
-.controls { display:flex; gap:8px; margin-top:12px; }
-input#msg { flex:1; padding:10px; border-radius:8px; border:1px solid #d1d5db; }
-button { padding:10px 14px; border-radius:8px; border:none; background:#2563eb; color:white; cursor:pointer; }
-.status { margin-top:10px; color:#6b7280; font-size:13px; }
+	     
+.container {
+	 max-width:720px;
+	  margin:0 auto;  
+	  background: linear-gradient(to right, maroon, teal);
+	    padding:18px;
+	    border: 1px solid orange;
+	     border-radius:10px;
+	      box-shadow:0 6px 24px rgba(0,0,0,0.08);
+	      }
+	      
+h1 {
+	 margin:0 0 12px 0;
+	  font-size:20px;
+	   }
+	   
+.chat {
+	 height:60vh;
+	 overflow:auto;
+  border:1px solid orange;
+  padding:12px;
+  border-radius:8px;
+  background:teal;
+	     }
+	     
+.msg {
+	 margin:8px 0;
+	  padding:10px 12px;
+	   border-radius:8px;
+	    max-width:80%;
+	     }
+	     
+.user {
+	 background:gray;
+	  color:orange;
+	   margin-left:auto;
+	    text-align:right;
+	    border: 1px solid orange;
+	     }
+	     
+.bot {
+	 background:orange;
+	  color:teal;
+	   margin-right:auto;
+	    text-align:left;
+	    border: 1px solid white;
+	     }
+	     
+.controls {
+	 display:flex;
+	  gap:8px;
+	   margin-top:12px;
+	    }
+	    
+input#msg {
+	 flex:1;
+	  padding:10px;
+	   border-radius:8px;
+	    border:1px solid orange;
+	    background: maroon;
+	    color: orange;
+	     }
+	     
+button {
+	 padding:10px 14px;
+	  border-radius:8px;
+	   border:none;
+	    background:orange;
+	     color:teal;
+	      cursor:pointer;
+	      border: 1px solid teal;
+	       }
+	       
+.status {
+	 margin-top:10px;
+	  color:teal;
+	   font-size:13px;
+	    }
+
+.picturee{
+width: 30px;
+height: 30px;
+border: 1px solid orange;
+border-radius: 20px;
+padding: 1px;
+margin-top: 6px;
+}
+
+footer{
+	text-align:center;
+	font-size: 12px;
+	border: 1px solid orange;
+ border-radius: 5px;
+ background:teal;
+}
+
