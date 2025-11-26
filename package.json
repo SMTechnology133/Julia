@@ -7,9 +7,9 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@xenova/transformers": "latest",
     "express": "latest",
     "cors": "latest",
-    "body-parser": "latest"
+    "body-parser": "latest",
+    "node-fetch": "latest"
   }
 }
