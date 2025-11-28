@@ -13,7 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-const HF_MODEL_URL = "microsoft/DialoGPT-medium/facebook/blenderbot-400M-distill";
+const HF_MODEL_URL = "microsoft/DialoGPT-medium/";
 
 app.post("/chat", async (req, res) => {
     try {
